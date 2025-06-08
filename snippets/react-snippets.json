@@ -1,0 +1,235 @@
+{
+  "Dynamic State": {
+    "prefix": "st_",
+    "body": [
+      "const [${TM_CURRENT_WORD/(?:st_)([^_]+)(?:_([^_]+))?/${1}/}, set${TM_CURRENT_WORD/(?:st_)([^_]+)(?:_([^_]+))?/${1:/capitalize}/}}] = useState<${TM_CURRENT_WORD/(?:st_)([^_]+)(?:_([^_]+))?/${2:-string}/}>(${TM_CURRENT_WORD/(?:st_)([^_]+)(?:_([^_]+))?/${2:''}/});"
+    ],
+    "description": "Dynamic state with optional type"
+  },
+  "Basic State": {
+    "prefix": "st",
+    "body": [
+      "const [${1:state}, set${1/(.*)/${1:/capitalize}/}] = useState<${2:string}>(${3:''});"
+    ],
+    "description": "Basic useState hook"
+  },
+"React Context Provider With Hook": {
+  "prefix": "ctx",
+  "body": [
+    "import { createContext, useContext, useState } from \"react\";",
+    "",
+    "export interface ${TM_FILENAME_BASE/(.*?)(Context)?$/${1}/}ProviderProps {",
+    "  children: React.ReactNode;",
+    "}",
+    "",
+    "export interface ${TM_FILENAME_BASE/(.*?)(Context)?$/${1}/}ContextType {",
+    "  // define your context values here",
+    "}",
+    "",
+    "export const ${TM_FILENAME_BASE/(.*?)(Context)?$/${1}/}Context = createContext<${TM_FILENAME_BASE/(.*?)(Context)?$/${1}/}ContextType | undefined>(undefined);",
+    "",
+    "export function ${TM_FILENAME_BASE/(.*?)(Context)?$/${1}/}Provider({ children }: ${TM_FILENAME_BASE/(.*?)(Context)?$/${1}/}ProviderProps): React.JSX.Element {",
+    "  const [state, setState] = useState(false);",
+    "",
+    "  return (",
+    "    <${TM_FILENAME_BASE/(.*?)(Context)?$/${1}/}Context.Provider value={{ state }}>",
+    "      {children}",
+    "    </${TM_FILENAME_BASE/(.*?)(Context)?$/${1}/}Context.Provider>",
+    "  );",
+    "}",
+    "",
+    "export function use${TM_FILENAME_BASE/(.*?)(Context)?$/${1:/capitalize}/}(): ${TM_FILENAME_BASE/(.*?)(Context)?$/${1}/}ContextType {",
+    "  const context = useContext(${TM_FILENAME_BASE/(.*?)(Context)?$/${1}/}Context);",
+    "  if (!context) {",
+    "    throw new Error(\"use${TM_FILENAME_BASE/(.*?)(Context)?$/${1:/capitalize}/} must be used within a ${TM_FILENAME_BASE/(.*?)(Context)?$/${1}/}Provider\");",
+    "  }",
+    "  return context;",
+    "}"
+  ],
+  "description": "Creates a context provider and corresponding custom hook based on file name"
+}
+,
+"React Custom Hook": {
+  "prefix": "hook",
+  "body": [
+    "import { useState } from \"react\";",
+    "",
+    "export function use${TM_FILENAME_BASE/(.*?)(Hook)?$/${1:/capitalize}/}() {",
+    "  const [state, setState] = useState(null);",
+    "",
+    "  const handleSomething = () => {",
+    "    // logic here",
+    "  };",
+    "",
+    "  return { state, setState, handleSomething };",
+    "}"
+  ],
+  "description": "Creates a custom React hook based on the file name"
+},
+
+
+
+  "useEffect Hook": {
+    "prefix": "ue",
+    "body": [
+      "useEffect(() => {",
+      "  ${1:// effect logic here}",
+      "}, [${2}]);"
+    ],
+    "description": "Creates a useEffect hook"
+  },
+  "Loading State": {
+    "prefix": "st_loading",
+    "body": [
+      "const [loading, setLoading] = useState<boolean>(false);"
+    ],
+    "description": "Loading state hook"
+  },
+  "Error State": {
+    "prefix": "st_error",
+    "body": [
+      "const [error, setError] = useState<${1:string | null}>(null);"
+    ],
+    "description": "Error state hook"
+  },
+  "handleClick": {
+    "prefix": "hclk",
+    "body": [
+      "const handleClick = () => {",
+      "  $0",
+      "};"
+    ],
+    "description": "Click handler"
+  },
+  "handleChange": {
+    "prefix": "hcg",
+    "body": [
+      "const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {",
+      "  $0",
+      "};"
+    ],
+    "description": "Change handler"
+  },
+  "Axios API Service": {
+  "prefix": "svc",
+  "body": [
+    "import axios, { AxiosRequestConfig, AxiosError, AxiosResponse } from \"axios\";",
+    "",
+    "const serverUrl = process.env.REACT_APP_API_BASE_URL || \"\";",
+    "",
+    "const api = axios.create({",
+    "  baseURL: serverUrl,",
+    "  headers: { \"Content-Type\": \"application/json\" },",
+    "  timeout: 10000,",
+    "});",
+    "",
+    "api.interceptors.request.use(",
+    "  (config: AxiosRequestConfig) => {",
+    "    const token = localStorage.getItem(\"authToken\");",
+    "    if (token) {",
+    "      config.headers = { ...config.headers, Authorization: `Bearer ${token}` };",
+    "    }",
+    "    return config;",
+    "  },",
+    "  (error: AxiosError) => Promise.reject(error)",
+    ");",
+    "",
+    "api.interceptors.response.use(",
+    "  (response: AxiosResponse) => response,",
+    "  (error: AxiosError) => Promise.reject(error.response?.data || error.message)",
+    ");",
+    "",
+    "const apiService = {",
+    "  get: (url: string, config?: AxiosRequestConfig) => api.get(url, config).then(res => res.data),",
+    "  post: (url: string, data?: any, config?: AxiosRequestConfig) => api.post(url, data, config).then(res => res.data),",
+    "  put: (url: string, data?: any, config?: AxiosRequestConfig) => api.put(url, data, config).then(res => res.data),",
+    "  delete: (url: string, config?: AxiosRequestConfig) => api.delete(url, config).then(res => res.data),",
+    "};",
+    "",
+    "export default apiService;"
+  ],
+  "description": "Clean Axios service with interceptors and reusable methods"
+},
+"Authentication Service Class": {
+  "prefix": "svc_auth",
+  "body": [
+    "import apiService from \"./apiService\";",
+    "",
+    "class AuthClient {",
+    "  getToken(): string | null {",
+    "    return sessionStorage.getItem(\"accessToken\");",
+    "  }",
+    "",
+    "  setToken(token: string) {",
+    "    sessionStorage.setItem(\"accessToken\", token);",
+    "  }",
+    "",
+    "  signOut() {",
+    "    sessionStorage.clear();",
+    "  }",
+    "",
+    "  loginWithCredentials(email: string, password: string) {",
+    "    return apiService.post(\"/auth/login\", { email, password });",
+    "  }",
+    "",
+    "  signUp(data: { email: string; password: string; name?: string }) {",
+    "    return apiService.post(\"/auth/signup\", data);",
+    "  }",
+    "",
+    "  getProfile() {",
+    "    return apiService.get(\"/auth/profile\");",
+    "  }",
+    "",
+    "  updateProfile(data: { name?: string; avatar?: string }) {",
+    "    return apiService.put(\"/auth/profile\", data);",
+    "  }",
+    "",
+    "  refreshToken() {",
+    "    return apiService.post(\"/auth/refresh\");",
+    "  }",
+    "}",
+    "",
+    "export const authentication = new AuthClient();"
+  ],
+  "description": "Clean AuthClient class with apiService integration"
+},
+"Dynamic Management Service Class": {
+  "prefix": "svc_mgmt",
+  "body": [
+    "import apiService from \"./apiService\";",
+    "",
+    "class ${TM_FILENAME_BASE/(.*)/${1:/capitalize}/}Service {",
+    "  // Fetch all ${TM_FILENAME_BASE/(.*)/${1}/}",
+    "  getAll() {",
+    "    return apiService.get(\"/${TM_FILENAME_BASE/(.*)/${1}/}\");",
+    "  }",
+    "",
+    "  // Fetch single ${TM_FILENAME_BASE/(.*)/${1}/} by ID",
+    "  getById(id: string | number) {",
+    "    return apiService.get(`/${TM_FILENAME_BASE/(.*)/${1}/}/${'$'}{id}`);",
+    "  }",
+    "",
+    "  // Create new ${TM_FILENAME_BASE/(.*)/${1}/}",
+    "  create(data: any) {",
+    "    return apiService.post(\"/${TM_FILENAME_BASE/(.*)/${1}/}\", data);",
+    "  }",
+    "",
+    "  // Update existing ${TM_FILENAME_BASE/(.*)/${1}/}",
+    "  update(id: string | number, data: any) {",
+    "    return apiService.put(`/${TM_FILENAME_BASE/(.*)/${1}/}/${'$'}{id}` , data);",
+    "  }",
+    "",
+    "  // Delete ${TM_FILENAME_BASE/(.*)/${1}/}",
+    "  delete(id: string | number) {",
+    "    return apiService.delete(`/${TM_FILENAME_BASE/(.*)/${1}/}/${'$'}{id}`);",
+    "  }",
+    "}",
+    "",
+    "export const ${TM_FILENAME_BASE/(.*)/${1}/}Service = new ${TM_FILENAME_BASE/(.*)/${1:/capitalize}/}Service();"
+  ],
+  "description": "Dynamically generates a management service class based on file name"
+}
+
+
+
+}

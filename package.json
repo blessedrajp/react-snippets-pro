@@ -1,0 +1,98 @@
+{
+  "name": "react-snippets-pro",
+  "displayName": "React Snippets Pro",
+  "description": "Advanced React snippets with dynamic state generation",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "publisher": "Blessed Raj P",
+  "author": {
+    "name": "Blessed Raj P",
+    "email": "blessedrajp@gmail.com"
+  },
+  "icon": "images/icon.png",
+  "categories": [
+    "Snippets",
+    "Programming Languages"
+  ],
+  "keywords": [
+    "react",
+    "snippets",
+    "typescript",
+    "javascript",
+    "hooks"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blessedrajp/react-snippets-pro.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blessedrajp/react-snippets-pro/issues"
+  },
+  "license": "MIT",
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onCommand:reactSnippets.dynamicGenerate"
+  ],
+  "contributes": {
+    "snippets": [
+      {
+        "language": "javascript",
+        "path": "./snippets/react-snippets.json"
+      },
+      {
+        "language": "javascriptreact",
+        "path": "./snippets/react-snippets.json"
+      },
+      {
+        "language": "typescript",
+        "path": "./snippets/react-snippets.json"
+      },
+      {
+        "language": "typescriptreact",
+        "path": "./snippets/react-snippets.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "reactSnippets.dynamicGenerate",
+        "title": "React: Generate Dynamic State",
+        "category": "React Snippets"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "reactSnippets.dynamicGenerate",
+        "key": "ctrl+alt+s",
+        "mac": "cmd+alt+s",
+        "when": "editorTextFocus && editorLangId == 'typescriptreact' || editorLangId == 'javascriptreact'"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.0.1",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.75.0",
+    "@typescript-eslint/eslint-plugin": "^5.53.0",
+    "@typescript-eslint/parser": "^5.53.0",
+    "eslint": "^8.34.0",
+    "glob": "^8.1.0",
+    "mocha": "^10.2.0",
+    "typescript": "^4.9.5",
+    "vsce": "^2.15.0",
+    "vscode-test": "^1.6.1"
+  },
+  "dependencies": {}
+}
