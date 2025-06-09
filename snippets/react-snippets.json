@@ -1,19 +1,145 @@
 {
-  "Dynamic State": {
-    "prefix": "st_",
+"React Arrow Function Component Export": {
+    "prefix": "rafce",
     "body": [
-      "const [${TM_CURRENT_WORD/(?:st_)([^_]+)(?:_([^_]+))?/${1}/}, set${TM_CURRENT_WORD/(?:st_)([^_]+)(?:_([^_]+))?/${1:/capitalize}/}}] = useState<${TM_CURRENT_WORD/(?:st_)([^_]+)(?:_([^_]+))?/${2:-string}/}>(${TM_CURRENT_WORD/(?:st_)([^_]+)(?:_([^_]+))?/${2:''}/});"
+      "import React from 'react';",
+      "",
+      "const ${TM_FILENAME_BASE} = () => {",
+      "  return (",
+      "    <div>",
+      "      $0",
+      "    </div>",
+      "  );",
+      "};",
+      "",
+      "export default ${TM_FILENAME_BASE};"
     ],
-    "description": "Dynamic state with optional type"
+    "description": "Creates a React arrow function component with export"
   },
-  "Basic State": {
+  "React Functional Component": {
+    "prefix": "rfc",
+    "body": [
+      "import React from 'react';",
+      "",
+      "function ${TM_FILENAME_BASE}() {",
+      "  return (",
+      "    <div>",
+      "      $0",
+      "    </div>",
+      "  );",
+      "}",
+      "",
+      "export default ${TM_FILENAME_BASE};"
+    ],
+    "description": "Creates a React functional component"
+  },
+  "React Functional Component with Props": {
+    "prefix": "rfcp",
+    "body": [
+      "import React from 'react';",
+      "",
+      "interface ${TM_FILENAME_BASE}Props {",
+      "  $0",
+      "}",
+      "",
+      "const ${TM_FILENAME_BASE}: React.FC<${TM_FILENAME_BASE}Props> = (props) => {",
+      "  return (",
+      "    <div>",
+      "      ",
+      "    </div>",
+      "  );",
+      "};",
+      "",
+      "export default ${TM_FILENAME_BASE};"
+    ],
+    "description": "Creates a React functional component with props interface"
+  },
+  "React Functional Component with Children": {
+    "prefix": "rfcc",
+    "body": [
+      "import React, { ReactNode } from 'react';",
+      "",
+      "interface ${TM_FILENAME_BASE}Props {",
+      "  children: ReactNode;",
+      "}",
+      "",
+      "const ${TM_FILENAME_BASE}: React.FC<${TM_FILENAME_BASE}Props> = ({ children }) => {",
+      "  return (",
+      "    <div>",
+      "      {children}",
+      "    </div>",
+      "  );",
+      "};",
+      "",
+      "export default ${TM_FILENAME_BASE};"
+    ],
+    "description": "Creates a React functional component with children prop"
+  },
+   "Basic State": {
     "prefix": "st",
     "body": [
       "const [${1:state}, set${1/(.*)/${1:/capitalize}/}] = useState<${2:string}>(${3:''});"
     ],
     "description": "Basic useState hook"
   },
-"React Context Provider With Hook": {
+  
+  "useEffect Hook": {
+    "prefix": "uf",
+    "body": [
+      "useEffect(() => {",
+      "  ${1:// effect logic here}",
+      "}, [${2}]);"
+    ],
+    "description": "Creates a useEffect hook"
+  },
+  "Data State": {
+    "prefix": "st_data",
+    "body": [
+      "const [data, setData] = useState<string>('');"
+    ],
+    "description": "Loading state hook"
+  },
+  "Loading State": {
+    "prefix": "st_loading",
+    "body": [
+      "const [loading, setLoading] = useState<boolean>(false);"
+    ],
+    "description": "Loading state hook"
+  },
+  "Error State": {
+    "prefix": "st_error",
+    "body": [
+      "const [error, setError] = useState<${1:string | null}>(null);"
+    ],
+    "description": "Error state hook"
+  },
+  "useCallback Hook": {
+    "prefix": "ucb",
+    "body": [
+      "const ${1:callback} = useCallback(() => {",
+      "  $0",
+      "}, [${2:dependencies}]);"
+    ],
+    "description": "Creates a useCallback hook"
+  },
+  "useMemo Hook": {
+    "prefix": "um",
+    "body": [
+      "const ${1:memoizedValue} = useMemo(() => {",
+      "  $0",
+      "  return ${2:value};",
+      "}, [${3:dependencies}]);"
+    ],
+    "description": "Creates a useMemo hook"
+  },
+  "useRef Hook": {
+    "prefix": "urf",
+    "body": [
+      "const ${1:ref} = useRef<${2:HTMLInputElement}>(null);"
+    ],
+    "description": "Creates a useRef hook"
+  },
+  "React Context Provider With Hook": {
   "prefix": "ctx",
   "body": [
     "import { createContext, useContext, useState } from \"react\";",
@@ -49,6 +175,32 @@
   "description": "Creates a context provider and corresponding custom hook based on file name"
 }
 ,
+  "useReducer Hook": {
+    "prefix": "urd",
+    "body": [
+      "const initialState = {",
+      "  $0",
+      "};",
+      "",
+      "type Action = ",
+      "  | { type: '${1:type1}'; payload: ${2:any} }",
+      "  | { type: '${3:type2}' };",
+      "",
+      "function reducer(state: typeof initialState, action: Action) {",
+      "  switch (action.type) {",
+      "    case '${1:type1}':",
+      "      return { ...state, ${4:key}: action.payload };",
+      "    case '${3:type2}':",
+      "      return { ...state, ${5:key}: ${6:value} };",
+      "    default:",
+      "      return state;",
+      "  }",
+      "}",
+      "",
+      "const [state, dispatch] = useReducer(reducer, initialState);"
+    ],
+    "description": "Creates a useReducer hook with types"
+  },
 "React Custom Hook": {
   "prefix": "hook",
   "body": [
@@ -67,49 +219,112 @@
   "description": "Creates a custom React hook based on the file name"
 },
 
-
-
-  "useEffect Hook": {
-    "prefix": "ue",
-    "body": [
-      "useEffect(() => {",
-      "  ${1:// effect logic here}",
-      "}, [${2}]);"
-    ],
-    "description": "Creates a useEffect hook"
-  },
-  "Loading State": {
-    "prefix": "st_loading",
-    "body": [
-      "const [loading, setLoading] = useState<boolean>(false);"
-    ],
-    "description": "Loading state hook"
-  },
-  "Error State": {
-    "prefix": "st_error",
-    "body": [
-      "const [error, setError] = useState<${1:string | null}>(null);"
-    ],
-    "description": "Error state hook"
-  },
-  "handleClick": {
+  "handleClick (Basic)": {
     "prefix": "hclk",
     "body": [
       "const handleClick = () => {",
       "  $0",
       "};"
     ],
-    "description": "Click handler"
+    "description": "Basic click handler"
   },
-  "handleChange": {
-    "prefix": "hcg",
+  "handleClick (Memoized)": {
+    "prefix": "hclk_memo",
     "body": [
-      "const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {",
+      "const handleClick = useCallback(() => {",
+      "  $0",
+      "}, [${1:dependencies}]);"
+    ],
+    "description": "Memoized click handler with dependencies"
+  },
+  "handleClick (Event)": {
+    "prefix": "hclk_event",
+    "body": [
+      "const handleClick = (e: React.MouseEvent<${1:HTMLButtonElement}>) => {",
+      "  e.preventDefault();",
+      "  e.stopPropagation();",
       "  $0",
       "};"
     ],
-    "description": "Change handler"
+    "description": "Click handler with event typing and prevention"
   },
+  "handleClick (Callback)": {
+    "prefix": "hclk_cb",
+    "body": [
+      "const handleClick = useCallback((${1:param}: ${2:type}) => {",
+      "  ${3:callback}(${1:param});",
+      "  $0",
+      "}, [${3:callback}]);"
+    ],
+    "description": "Click handler that invokes a callback function"
+  },
+  "handleChange (Basic)": {
+    "prefix": "hcg",
+    "body": [
+      "const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {",
+      "  $0",
+      "};"
+    ],
+    "description": "Basic change handler"
+  },
+  "handleChange (Memoized)": {
+    "prefix": "hcg_memo",
+    "body": [
+      "const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {",
+      "  set${1:State}(e.target.value);",
+      "  ${2:callback}?.(e.target.value);",
+      "  $0",
+      "}, [${2:callback}]);"
+    ],
+    "description": "Memoized change handler with callback"
+  },
+  "handleChange (Generic)": {
+    "prefix": "hcg_gen",
+    "body": [
+      "const handleChange = <T extends HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(\n  e: React.ChangeEvent<T>\n) => {\n  set${1:State}(e.target.value as ${2:type});\n  $0\n};"
+    ],
+    "description": "Generic change handler for multiple input types"
+  },
+  "handleSubmit (Form)": {
+    "prefix": "hsubmit",
+    "body": [
+      "const handleSubmit = useCallback(async (e: React.FormEvent) => {",
+      "  e.preventDefault();",
+      "  try {",
+      "    ${1:// submit logic}",
+      "    ${2:onSuccess}?.();",
+      "  } catch (error) {",
+      "    ${3:onError}?.(error instanceof Error ? error : new Error('Submission failed'));",
+      "  }",
+      "}, [${2:onSuccess}, ${3:onError}]);"
+    ],
+    "description": "Form submit handler with callbacks"
+  },
+  "Callback Hook": {
+    "prefix": "use_cb",
+    "body": [
+      "const use${1:Action}Callback = (callback: (${2:arg}: ${3:type}) => void) => {",
+      "  return useCallback((${2:arg}: ${3:type}) => {",
+      "    ${4:// pre-processing}",
+      "    callback(${2:arg});",
+      "    ${5:// post-processing}",
+      "  }, [callback]);",
+      "};"
+    ],
+    "description": "Custom hook that wraps a callback"
+  },
+  "Event Callback Factory": {
+    "prefix": "cb_factory",
+    "body": [
+      "const create${1:Handler} = (callback?: ${2:type}) => {",
+      "  return useCallback((${3:e}: ${4:ReactEventType}) => {",
+      "    ${5:// handler logic}",
+      "    callback?.(${6:args});",
+      "  }, [callback]);",
+      "};"
+    ],
+    "description": "Creates a callback-based event handler factory"
+},
   "Axios API Service": {
   "prefix": "svc",
   "body": [
@@ -155,7 +370,7 @@
   "body": [
     "import apiService from \"./apiService\";",
     "",
-    "class AuthClient {",
+    "class AuthService {",
     "  getToken(): string | null {",
     "    return sessionStorage.getItem(\"accessToken\");",
     "  }",
@@ -189,7 +404,7 @@
     "  }",
     "}",
     "",
-    "export const authentication = new AuthClient();"
+    "export const authentication = new AuthService();"
   ],
   "description": "Clean AuthClient class with apiService integration"
 },
@@ -228,8 +443,98 @@
     "export const ${TM_FILENAME_BASE/(.*)/${1}/}Service = new ${TM_FILENAME_BASE/(.*)/${1:/capitalize}/}Service();"
   ],
   "description": "Dynamically generates a management service class based on file name"
-}
+},
+
+  "API GET Request": {
+    "prefix": "api_get",
+    "body": [
+      "const fetchData = async (${1:url}: string) => {",
+      "  ${2:setLoading(true);}",
+      "  ${3:setError(null);}",
+      "  try {",
+      "    const response = await api.get<${4:ReturnType}>(${1:url});",
+      "    ${5:setData(response.data);}",
+      "    return response.data;",
+      "  } catch (err) {",
+      "    const message = err instanceof Error ? err.message : 'Request failed';",
+      "    ${3:setError(message);}",
+      "    throw err;",
+      "  } finally {",
+      "    ${2:setLoading(false);}",
+      "  }",
+      "};"
+    ],
+    "description": "GET request with optional state management"
+  },
 
 
+  "API POST Request": {
+    "prefix": "api_post",
+    "body": [
+      "const postData = async (${1:url}: string, payload: ${2:PayloadType}) => {",
+      "  ${3:setLoading(true);}",
+      "  ${4:setError(null);}",
+      "  try {",
+      "    const response = await api.post<${5:ReturnType}>(${1:url}, payload);",
+      "    ${6:setData(response.data);}",
+      "    return response.data;",
+      "  } catch (err) {",
+      "    const message = err instanceof Error ? err.message : 'Submission failed';",
+      "    ${4:setError(message);}",
+      "    throw err;",
+      "  } finally {",
+      "    ${3:setLoading(false);}",
+      "  }",
+      "};"
+    ],
+    "description": "POST request with optional state management"
+  },
+
+
+
+
+  "API PUT Request": {
+    "prefix": "api_put",
+    "body": [
+      "const updateData = async (${1:url}: string, payload: ${2:PayloadType}) => {",
+      "  ${3:setLoading(true);}",
+      "  ${4:setError(null);}",
+      "  try {",
+      "    const response = await api.put<${5:ReturnType}>(${1:url}, payload);",
+      "    ${6:setData(response.data);}",
+      "    return response.data;",
+      "  } catch (err) {",
+      "    const message = err instanceof Error ? err.message : 'Update failed';",
+      "    ${4:setError(message);}",
+      "    throw err;",
+      "  } finally {",
+      "    ${3:setLoading(false);}",
+      "  }",
+      "};"
+    ],
+    "description": "PUT request with optional state management"
+  },
+
+  "API DELETE Request": {
+    "prefix": "api_delete",
+    "body": [
+      "const deleteData = async (${1:url}: string) => {",
+      "  ${2:setLoading(true);}",
+      "  ${3:setError(null);}",
+      "  try {",
+      "    const response = await api.delete<${4:ReturnType}>(${1:url});",
+      "    ${5:setData(response.data);}",
+      "    return response.data;",
+      "  } catch (err) {",
+      "    const message = err instanceof Error ? err.message : 'Deletion failed';",
+      "    ${3:setError(message);}",
+      "    throw err;",
+      "  } finally {",
+      "    ${2:setLoading(false);}",
+      "  }",
+      "};"
+    ],
+    "description": "DELETE request with optional state management"
+  }
 
 }
