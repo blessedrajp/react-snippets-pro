@@ -1,17 +1,17 @@
 {
-  "name": "react-snippets-pro",
-  "displayName": "React Snippets Pro",
+  "name": "react-snippets-Advanced",
+  "displayName": "React Snippets Advanced",
   "description": "Advanced React snippets with dynamic state generation",
   "version": "1.0.0",
   "engines": {
     "vscode": "^1.75.0"
   },
-  "publisher": "Blessed Raj P",
+  "publisher": "blessedrajp",
   "author": {
     "name": "Blessed Raj P",
     "email": "blessedrajp@gmail.com"
   },
-  "icon": "images/icon.png",
+  "icon": "images/extension_icon.png",
   "categories": [
     "Snippets",
     "Programming Languages"
@@ -25,7 +25,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/blessedrajp/react-snippets-pro.git"
+    "url": "https://github.com/blessedrajp/react-snippets-pro"
   },
   "bugs": {
     "url": "https://github.com/blessedrajp/react-snippets-pro/issues"

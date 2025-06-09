@@ -37,55 +37,76 @@ exports.activate = activate;
 exports.deactivate = deactivate;
 const vscode = __importStar(require("vscode"));
 function activate(context) {
-    const dynamicGenerateCommand = vscode.commands.registerCommand('reactSnippets.dynamicGenerate', async () => {
+    // Register the command
+    let disposable = vscode.commands.registerCommand('reactSnippets.dynamicGenerate', () => {
         const editor = vscode.window.activeTextEditor;
         if (!editor) {
-            vscode.window.showErrorMessage('Open a file first.');
+            vscode.window.showErrorMessage('No active editor found!');
             return;
         }
-        const position = editor.selection.active;
-        const wordRange = editor.document.getWordRangeAtPosition(position);
-        const word = wordRange ? editor.document.getText(wordRange) : '';
-        if (!word) {
-            vscode.window.showErrorMessage('Place your cursor on a valid shortcut word like st_name_type');
+        const selection = editor.selection;
+        const wordRange = editor.document.getWordRangeAtPosition(selection.active);
+        if (!wordRange) {
+            vscode.window.showErrorMessage('No word selected!');
             return;
         }
-        const parts = word.split('_');
-        if (parts.length < 2) {
-            vscode.window.showErrorMessage('Invalid shortcut format. Use st_name_type or fn_name_type');
+        const word = editor.document.getText(wordRange);
+        if (!word.startsWith('st_')) {
+            vscode.window.showErrorMessage('State snippet must start with "st_"');
             return;
         }
-        const prefix = parts[0];
-        const name = parts[1];
-        const type = parts[2] || '';
-        const capitalized = name.charAt(0).toUpperCase() + name.slice(1);
-        let snippet = '';
-        if (prefix === 'st') {
-            const typeToUse = type || 'string';
-            snippet = `const [${name}, set${capitalized}] = useState<${typeToUse}>('');`;
+        // Parse the command
+        const parts = word.split('_').slice(1); // Remove the 'st' prefix
+        if (parts.length === 0) {
+            vscode.window.showErrorMessage('Invalid format. Use st_name or st_name_type');
+            return;
         }
-        else if (prefix === 'fn') {
-            if (type === 'callback') {
-                snippet = `const ${name} = useCallback(() => {\n  // logic\n}, []);`;
-            }
-            else if (type === 'memo') {
-                snippet = `const ${name} = useMemo(() => {\n  // logic\n}, []);`;
-            }
-            else {
-                snippet = `const ${name} = () => {\n  // logic\n};`;
-            }
+        const stateName = parts[0];
+        const stateType = parts.length > 1 ? parts[1] : 'string';
+        const setterName = 'set' + stateName.charAt(0).toUpperCase() + stateName.slice(1);
+        // Create the snippet
+        const snippet = new vscode.SnippetString();
+        snippet.appendText(`const [${stateName}, ${setterName}] = useState<${stateType}>(`);
+        // Add appropriate default value based on type
+        if (stateType === 'string') {
+            snippet.appendText("''");
+        }
+        else if (stateType === 'number') {
+            snippet.appendText('0');
+        }
+        else if (stateType === 'boolean') {
+            snippet.appendText('false');
         }
         else {
-            vscode.window.showErrorMessage('Unsupported prefix. Use "st" or "fn"');
-            return;
+            snippet.appendText('null');
         }
-        await editor.edit((editBuilder) => {
-            if (wordRange)
-                editBuilder.delete(wordRange);
+        snippet.appendText(');');
+        // Replace the word with the snippet
+        editor.edit(editBuilder => {
+            editBuilder.delete(wordRange);
+        }).then(() => {
+            editor.insertSnippet(snippet, wordRange.start);
         });
-        editor.insertSnippet(new vscode.SnippetString(snippet), position);
     });
-    context.subscriptions.push(dynamicGenerateCommand);
+    context.subscriptions.push(disposable);
+    // Register a completion provider for dynamic snippets
+    const completionProvider = vscode.languages.registerCompletionItemProvider(['javascript', 'javascriptreact', 'typescript', 'typescriptreact'], {
+        provideCompletionItems(document, position) {
+            const linePrefix = document.lineAt(position).text.substr(0, position.character);
+            if (linePrefix.endsWith('st_')) {
+                const simpleState = new vscode.CompletionItem('st_name', vscode.CompletionItemKind.Snippet);
+                simpleState.insertText = new vscode.SnippetString('st_${1:state}');
+                simpleState.documentation = new vscode.MarkdownString('Creates a useState hook with dynamic name');
+                const typedState = new vscode.CompletionItem('st_name_type', vscode.CompletionItemKind.Snippet);
+                typedState.insertText = new vscode.SnippetString('st_${1:state}_${2:string}');
+                typedState.documentation = new vscode.MarkdownString('Creates a useState hook with dynamic name and type');
+                return [simpleState, typedState];
+            }
+            return undefined;
+        }
+    }, '_' // Triggered when typing '_'
+    );
+    context.subscriptions.push(completionProvider);
 }
 function deactivate() { }
 //# sourceMappingURL=extension.js.map

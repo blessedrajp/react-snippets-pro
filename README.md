@@ -1,3 +1,6 @@
+
+  <img src="images/extension_icon.png" width="128" alt="React Snippets Pro Logo" />
+
 # 📦 Blessed’s React + TypeScript VS Code Snippets
 A collection of clean, dynamic, reusable VS Code snippets for React, TypeScript, and Axios-based service management.
 Designed to speed up development, enforce consistency, and reduce boilerplate.

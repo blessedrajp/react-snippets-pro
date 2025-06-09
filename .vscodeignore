@@ -1,4 +1,36 @@
-.vscode/**
-.vscode-test/**
-.gitignore
-vsc-extension-quickstart.md
+# Ignore node dependencies
+node_modules/
+
+# Ignore TypeScript source files and config
+src/
+tsconfig.json
+tsconfig.build.json
+
+# Ignore test files
+out/test/
+test/
+*.spec.ts
+*.test.ts
+
+# Ignore config files
+.vscode/
+.vscodeignore
+.vsc-extension-quickstart.md
+package-lock.json
+.eslintrc.json
+.prettierrc
+.prettierignore
+
+# Ignore maps and metadata
+*.map
+
+# Ignore git and GitHub workflows
+.git/
+.github/
+
+# Ignore other non-essential files
+README.md
+CHANGELOG.md
+
+# Ignore VSIX artifacts if present
+*.vsix
