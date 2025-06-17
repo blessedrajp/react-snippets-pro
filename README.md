@@ -1,4 +1,4 @@
-# 🚀 React Snippets Pro
+# 🚀 React Snippets Advanced
 
 A curated and comprehensive collection of high-quality, productivity-boosting VSCode code snippets for modern **React** and **TypeScript** development. Save time writing boilerplate code and focus on building powerful UIs.
 
@@ -8,7 +8,7 @@ A curated and comprehensive collection of high-quality, productivity-boosting VS
 
 ## 📑 Table of Contents
 
-- [🚀 React Snippets Pro](#-react-snippets-pro)
+- [🚀 React Snippets Advanced](#-react-snippets-advanced)
   - [📑 Table of Contents](#-table-of-contents)
   - [📖 Introduction](#-introduction)
   - [✨ Features](#-features)
@@ -27,7 +27,7 @@ A curated and comprehensive collection of high-quality, productivity-boosting VS
 
 ## 📖 Introduction
 
-**React Snippets Pro** is a developer-friendly VSCode snippets collection built for efficient React and TypeScript development. Whether you're building components, managing state, working with hooks, or handling APIs — these well-structured snippets have got you covered.
+**React Snippets Advanced** is a developer-friendly VSCode snippets collection built for efficient React and TypeScript development. Whether you're building components, managing state, working with hooks, or handling APIs — these well-structured snippets have got you covered.
 
 ---
 

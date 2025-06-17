@@ -29,7 +29,6 @@ package-lock.json
 .github/
 
 # Ignore other non-essential files
-README.md
 CHANGELOG.md
 
 # Ignore VSIX artifacts if present

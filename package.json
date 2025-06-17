@@ -2,7 +2,7 @@
   "name": "react-snippets-Advanced",
   "displayName": "React Snippets Advanced",
   "description": "Advanced React snippets with dynamic state generation",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "engines": {
     "vscode": "^1.75.0"
   },
